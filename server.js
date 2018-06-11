@@ -33,25 +33,39 @@ app.get("/",(req,res) =>
 app.post("/api/login",(req,res)=>
 {
     res.locals.connection.query('SELECT * from user WHERE email =?',[req.body.email],function (error,result) {
-        if(error)
-            throw error;
-        if(result.length === 1 && result[0].password===req.body.password)
-            res.send(JSON.stringify({"status":200,"value":"ok","email":req.body.email}));
-        else
-            res.send(JSON.stringify({"status":403,"value":"denied"}));
+        if(error) {
+            res.status(400);
+            res.send(JSON.stringify({"loggedIn":false}));
+            res.end();
+        }
+        else {
+            if (result.length === 1 && result[0].password === req.body.password) {
+                res.send(JSON.stringify({"loggedIn": true, "email": req.body.email}));
+                res.end();
+            }
+            else {
+                res.status(403);
+                res.send(JSON.stringify({"loggedIn": false}))
+
+            }
+        }
     });
 
 });
 
+
 app.post("/api/signup",(req,res)=>
 {
-    res.locals.connection.query('INSERT INTO user (email,password) VALUES (?)',[[req.body.email,req.body.password]],function (error,result) {
+    let sql="INSERT INTO `user` (`email`, `password`, `home_town`, `age`, `gender`, `Religion`, `cast`, `height`, `other`, `name`, `contact`) VALUES (?)";
+    let b=req.body;
+    let value=[b.email,b.password,b.homeCity,b.age,b.gender,b.religion,b.cast,b.height,b.other,b.name,b.contact];
+    res.locals.connection.query(sql,[value],function (error,result) {
         if(error){
             res.status(400);
-            res.send(JSON.stringify({'error':error}))
+            res.send(JSON.stringify({"loggedIn":false,"success":false}))
         }
         else
-            res.send(JSON.stringify({"result":result}))
+            res.send(JSON.stringify({"loggedIn":true,"success":true,"email":b.email}))
     });
 
 });

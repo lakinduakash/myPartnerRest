@@ -56,9 +56,9 @@ app.post("/api/login",(req,res)=>
 
 app.post("/api/signup",(req,res)=>
 {
-    let sql="INSERT INTO `user` (`email`, `password`, `home_town`, `age`, `gender`, `Religion`, `cast`, `height`, `other`, `name`, `contact`) VALUES (?)";
+    let sql="INSERT INTO `user` (`email`, `password`, `city`, `age`, `gender`, `religion`, `cast`, `height`, `other`, `name`, `contact`) VALUES (?)";
     let b=req.body;
-    let value=[b.email,b.password,b.homeCity,b.age,b.gender,b.religion,b.cast,b.height,b.other,b.name,b.contact];
+    let value=[b.email,b.password,b.city,b.age,b.gender,b.religion,b.cast,b.height,b.other,b.name,b.contact];
     res.locals.connection.query(sql,[value],function (error,result) {
         if(error){
             res.status(400);
@@ -72,7 +72,7 @@ app.post("/api/signup",(req,res)=>
 
 app.get("/api/userlist",(req,res)=>
 {
-    let sql="SELECT `id`,`gender`,`home_town` from `user`"
+    let sql="SELECT `id`,`gender`,`city` from `user`"
     res.locals.connection.query(sql,null,function (error,result) {
         res.send(JSON.stringify(result));
         

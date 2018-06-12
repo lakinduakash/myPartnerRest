@@ -69,3 +69,24 @@ app.post("/api/signup",(req,res)=>
     });
 
 });
+
+app.get("/api/userlist",(req,res)=>
+{
+    let sql="SELECT `id`,`gender`,`home_town` from `user`"
+    res.locals.connection.query(sql,null,function (error,result) {
+        res.send(JSON.stringify(result));
+        
+    })
+});
+
+app.get("/api/details/:id",(req,res)=>{
+
+    const  id=req.params.id
+
+    let sql ="SELECT * from `user` WHERE id ="+id;
+
+    res.locals.connection.query(sql,null,(error,result)=>
+    {
+        res.send(JSON.stringify(result));
+    })
+})

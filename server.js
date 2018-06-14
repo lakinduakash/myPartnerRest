@@ -72,7 +72,7 @@ app.post("/api/signup",(req,res)=>
 
 app.get("/api/userlist",(req,res)=>
 {
-    let sql="SELECT `id`,`gender`,`city` from `user`"
+    let sql="SELECT `id`,`gender`,`city` from `user`";
     res.locals.connection.query(sql,null,function (error,result) {
         res.send(JSON.stringify(result));
         
@@ -81,7 +81,7 @@ app.get("/api/userlist",(req,res)=>
 
 app.get("/api/details/:id",(req,res)=>{
 
-    const  id=req.params.id
+    const  id=req.params.id;
 
     let sql ="SELECT * from `user` WHERE id ="+id;
 
@@ -89,4 +89,4 @@ app.get("/api/details/:id",(req,res)=>{
     {
         res.send(JSON.stringify(result));
     })
-})
+});

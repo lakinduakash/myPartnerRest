@@ -56,11 +56,12 @@ app.post("/api/login",(req,res)=>
 
 app.post("/api/signup",(req,res)=>
 {
-    let sql="INSERT INTO `user` (`username`, `password`, `city`, `age`, `gender`, `religion`, `cast`, `height`, `other`, `name`, `contact`) VALUES (?)";
+    let sql="INSERT INTO `user` (`username`, `password`, `city`, `age`, `gender`, `religion`, `cast`, `height`, `other`) VALUES (?)";
     let b=req.body;
-    let value=[b.username,b.password,b.city,b.age,b.gender,b.religion,b.cast,b.height,b.other,b.name,b.contact];
+    let value=[b.username,b.password,b.city,b.age,b.gender,b.religion,b.cast,b.height,b.other];
     res.locals.connection.query(sql,[value],function (error,result) {
         if(error){
+            console.log(error)
             res.status(400);
             res.send(JSON.stringify({"loggedIn":false,"success":false}))
         }
